@@ -3,105 +3,118 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <!-- <link rel="stylesheet" href="./CSS/style.css" /> -->
+    <title>calculator</title>
+    <link rel="stylesheet" href="/css/style.css" />
     <style>
-      .container {
-        max-width: 400px;
-        margin: 10vh auto 0 auto;
-        box-shadow: 0px 0px 43px 17px rgba(153, 153, 153, 1);
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
       }
-      #display {
+      body {
+        width: 100%;
+        height: 100hv;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(45deg, #0a0a0a, #3a4452);
+      }
+      .calculator {
+        border: 1px solid #717377;
+        padding: 20px;
+        border-radius: 16px;
+        background: transparent;
+        box-shadow: 0px 3px 15px rgba(113, 115, 119, 0.5);
+      }
+      input {
+        width: 100%;
+        border: none;
+        padding: 24px;
+        margin: 10px;
+        background: transparent;
+        box-shadow: 0px 3px 15px rgb(84, 84, 84, 0.1);
+        font-size: 40px;
         text-align: right;
-        height: 70px;
-        line-height: 70px;
-        padding: 16px 8px;
-        font-size: 25px;
+        cursor: pointer;
+        color: #ffffff;
       }
-      .buttons {
-        display: grid;
-        border-bottom: 1px solid #999;
-        border-left: 1px solid #999;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+      input::placeholder {
+        color: #ffffff;
       }
-      .buttons {
-        border-top: 1px solid #999;
-        border-right: 1px solid #999;
-      }
-
-      .button {
-        border: 0.5px solid #999;
-        line-height: 100px;
-        text-align: center;
-        font-size: 25px;
+      button {
+        border: none;
+        width: 60px;
+        height: 60px;
+        margin: 10px;
+        border-radius: 50%;
+        background: transparent;
+        color: #ffffff;
+        font-size: 20px;
+        box-shadow: -8px -8px 15px rgba(255, 255, 255, 0.1);
         cursor: pointer;
       }
-      #equal {
-        background-color: blue;
-        color: white;
+      .equalbtn {
+        background-color: coral;
       }
-      .button:hover {
-        background-color: #323330;
-        color: white;
-        transition: 0.5s ease-in-out;
+      .operator {
+        color: blanchedalmond;
       }
     </style>
   </head>
   <body>
-    <section>
-      <div class="container">
-        <div id="display"></div>
-        <div class="buttons">
-          <div class="button">C</div>
-          <div class="button">/</div>
-          <div class="button">*</div>
-          <div class="button">&larr;</div>
-          <div class="button">7</div>
-          <div class="button">8</div>
-          <div class="button">9</div>
-          <div class="button">-</div>
-          <div class="button">4</div>
-          <div class="button">5</div>
-          <div class="button">6</div>
-          <div class="button">+</div>
-          <div class="button">1</div>
-          <div class="button">2</div>
-          <div class="button">3</div>
-          <div class="button">.</div>
-          <div class="button">(</div>
-          <div class="button">0</div>
-          <div class="button">)</div>
-          <div id="equal" class="button">=</div>
+    <div class="calculator">
+      <input type="text" placeholder="0" id="inputBox" />
+      <div>
+        <button>AC</button>
+        <button>DEL</button>
+        <button class="operator">%</button>
+        <button class="operator">/</button>
+      </div>
+      <div>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button class="operator">*</button>
+        <div>
+          <button>4</button>
+          <button>5</button>
+          <button>6</button>
+          <button class="operator">-</button>
+        </div>
+        <div>
+          <button>1</button>
+          <button>2</button>
+          <button>3</button>
+          <button class="operator">+</button>
+        </div>
+        <div>
+          <button>00</button>
+          <button>0</button>
+          <button>.</button>
+          <button class="equalbtn">=</button>
         </div>
       </div>
-    </section>
+    </div>
     <script>
-      let display = document.getElementById("display");
-
-      let buttons = Array.from(document.getElementsByClassName("button"));
-      buttons.map((button) => {
+      let input = document.getElementById("inputBox");
+      let buttons = document.querySelectorAll("button");
+      let string = " ";
+      let arr = Array.from(buttons);
+      arr.forEach((button) => {
         button.addEventListener("click", (e) => {
-          switch (e.target.innerText) {
-            case "C":
-              display.innerText = " ";
-              break;
-
-            case "←":
-              if (display.innerText) {
-                display.innerText = display.innerText.slice(e, -1);
-              }
-              break;
-
-            case "=":
-              try {
-                display.innerText = eval(display.innerText);
-              } catch {
-                display.innerText = "Error!";
-              }
-              break;
-
-            default:
-              display.innerText += e.target.innerText;
+          if (e.target.innerHTML == "=") {
+            string = eval(string);
+            input.value = string;
+          } else if (e.target.innerHTML == "DEL") {
+            string = string.substring(0, string.length - 1);
+            input.value = string;
+          } else if (e.target.innerHTML == "AC") {
+            string = "";
+            input.value = string;
+          } else {
+            string += e.target.innerHTML;
+            input.value = string;
           }
         });
       });
